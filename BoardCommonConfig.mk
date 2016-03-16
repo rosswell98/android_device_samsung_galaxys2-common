@@ -156,7 +156,18 @@ BOARD_VOLD_DISC_HAS_MULTIPLE_MAJORS := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/s3c-usbgadget/gadget/lun%d/file"
 
 # Selinux
-BOARD_SEPOLICY_DIRS += device/samsung/galaxys2-common/selinux
+BOARD_SEPOLICY_DIRS += \
+    device/samsung/galaxys2-common/selinux
+
+BOARD_SEPOLICY_UNION += \
+    device.te \
+    drmserver.te \
+    ueventd.te \
+    domain.te \
+    file.te \
+    file_contexts \
+    rild.te \
+    vold.te
 
 # Recovery
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/galaxys2-common/recovery/recovery_keys.c
@@ -178,10 +189,15 @@ BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charg
 BOARD_BATTERY_DEVICE_NAME := "battery"
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
+BOARD_CHARGER_RES := device/samsung/galaxys2-common/res/charger
+
 BOARD_CUSTOM_BOOTIMG_MK := device/samsung/galaxys2-common/shbootimg.mk
 
 # Override healthd HAL
 BOARD_HAL_STATIC_LIBRARIES := libhealthd.exynos4
+
+#TWRP configs
+TW_HAS_NO_RECOVERY_PARTITION := true
 
 # Use the non-open-source parts, if they're present
 -include vendor/samsung/galaxys2-common/BoardConfigVendor.mk

@@ -63,7 +63,9 @@ PRODUCT_PACKAGES := \
 # Legacy RIL
 PRODUCT_PACKAGES += \
     libsamsung_symbols \
-    ril-wrapper
+    ril-wrapper \
+    SamsungServiceMode \
+    Torch
 
 # Audio Packages
 PRODUCT_PACKAGES += \
@@ -134,6 +136,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
+    static_busybox \
     make_ext4fs \
     resize2fs_static \
     setup_fs
@@ -201,6 +204,10 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/excluded-input-devices.xml:system/etc/excluded-input-devices.xml
 
+# Set default USB interface
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp
+
 $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
 
 # Include exynos4 platform specific parts
@@ -208,5 +215,5 @@ TARGET_HAL_PATH := hardware/samsung/exynos4/hal
 TARGET_OMX_PATH := hardware/samsung/exynos/multimedia/openmax
 $(call inherit-product, hardware/samsung/exynos4210.mk)
 
-# Include non-open-source parts
-$(call inherit-product, vendor/samsung/galaxys2-common/common-vendor.mk)
+# Use the non-open-source parts, if they're present
+-include vendor/samsung/galaxys2-common/common-vendor.mk
